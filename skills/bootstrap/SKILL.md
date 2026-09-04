@@ -1,6 +1,6 @@
 ---
 name: bootstrap
-description: "Scaffold a new or early-stage repo to Matt's house conventions: agent entrypoint file, core skills via the skills CLI, and optional prose/comment enforcement. Run once, early in a repo's life."
+description: "Scaffold a new or early-stage repo to Matt's house conventions: agent entrypoint file, core skills via the skills CLI, and optional prose/comment enforcement. Safe to run more than once."
 disable-model-invocation: true
 ---
 
@@ -10,16 +10,28 @@ Scaffold the conventions Matt starts every repo with. This is a prompt-driven pr
 present what you found, confirm with the user, then write. The repo's programming language,
 runtime, and hosting stay undecided here; nothing in this skill assumes them.
 
+Every step below is idempotent. Step 1 always runs first, and its findings decide, per step, one
+of three actions: write fresh (nothing there yet), leave alone (already matches this skill's
+intent), or offer a targeted update (something changed since the last run). Reuse a question step
+1 already answered. Treat a block or file that already exists in the form this skill would write
+as already done.
+
 ## 1. Explore
 
 Read whatever exists; don't assume:
 
-- `git remote -v`: does a host and owner/repo already exist?
+- `git remote -v`: does a host and owner/repo already exist? A repo that gained a remote since the
+  last run can now adopt the GitHub-specific pieces of step 5.
 - `AGENTS.md` and `CLAUDE.md`: does either exist?
 - `README.md`, `.gitignore`
 - `skills-lock.json`, `.claude/skills/`, `node_modules/`: has `npx skills@latest` already run here?
+  Diff the baseline in step 3 against the lock file's keys to find what is still missing.
+- A skill directory that exists under an agent directory (`.claude/skills/<name>`,
+  `.agents/skills/<name>`) but has no matching entry in `skills-lock.json`: a copy made by hand,
+  or made before this repo adopted the skills CLI. Flag it for step 3 to replace.
 - `docs/standards/`, `docs/agents/`, `.banned-patterns`, `.claude/hooks/`, `.claude/settings.json`,
-  `.github/workflows/`
+  `.github/workflows/`: present, absent, or (for `check-banned-patterns.sh` and its hook) still on
+  the Markdown-only default after the repo's source language was decided.
 
 ## 2. Agent entrypoint file
 
@@ -54,6 +66,13 @@ Name each agent this project targets; `-a '*'` also writes a directory for every
 CLI supports, most of them irrelevant to this project, so avoid it. The user can browse further
 candidates with `npx skills@latest find <query>`.
 
+On a repeat run, install only a baseline skill missing from `skills-lock.json`. For a skill
+directory step 1 flagged as hand-copied or pre-CLI, confirm with the user, then delete that
+directory and install the same skill fresh through the command above, so `skills-lock.json` picks
+up a real entry for it. When the project starts using an agent it did not target before (a new
+contributor's editor, a new CLI), rerun the same install command for each already-installed skill
+with the added agent name. The CLI updates the existing entry rather than creating a duplicate.
+
 `.agents/skills/` is the CLI's own store for the `universal` agent, and `.claude/skills/` holds
 its Claude Code symlinks. Add both, plus `node_modules/`, to `.gitignore`. Track only
 `skills-lock.json`. Every directory above regenerates from it. Copy
@@ -70,7 +89,7 @@ Create an empty `README.md` if none exists. Leave the content to the user.
 ## 5. Prose and comment enforcement (optional, ask)
 
 Recommend this bundle only when step 3 installed the STE skill; the two pieces below assume it and
-cite it by name. Ask before adopting:
+cite it by name. Ask before adopting. Ask again on a repeat run when a prior run declined it.
 
 - [`banned-patterns`](banned-patterns) → `.banned-patterns` at the repo root
 - [`check-banned-patterns.sh`](check-banned-patterns.sh) → `scripts/check-banned-patterns.sh`
@@ -108,3 +127,23 @@ Done when: `scripts/bootstrap.sh` exists and restores every installed skill from
 `skills-lock.json`; the entrypoint file names each adopted piece with a one-line pointer to its
 doc; running `scripts/check-banned-patterns.sh` (when step 5 was adopted) exits clean on the
 repo's current content.
+
+## 8. Re-running
+
+This skill is not a one-time setup. Rerun it whenever the repo's situation changed since the last
+run, rather than making the same edit by hand. Situations worth a rerun for:
+
+- A baseline skill is missing from `skills-lock.json` on a repo bootstrapped before it joined the
+  baseline in step 3.
+- A skill directory exists that step 1 flags as hand-copied or pre-CLI: a manual copy of
+  `simplified-technical-english`, made before this skill existed and later replaced through
+  `npx skills@latest add`, is the case that motivated this rule.
+- The repo's source language went from undecided to chosen: revisit the `LANGUAGE` marker in
+  step 5's script and hook.
+- The repo gained a GitHub remote after step 5 ran without one: adopt `ci-github.yml` now.
+- A prior run declined the step 5 bundle and the user now wants it.
+- A new agent (editor, CLI) joined the project after step 3 ran: extend each already-installed
+  skill to the added agent.
+
+A rerun for one of these still starts at step 1. Its findings are what tell every later step
+whether to write, leave alone, or update.
