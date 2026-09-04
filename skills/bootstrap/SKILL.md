@@ -66,6 +66,12 @@ Name each agent this project targets; `-a '*'` also writes a directory for every
 CLI supports, most of them irrelevant to this project, so avoid it. The user can browse further
 candidates with `npx skills@latest find <query>`.
 
+The CLI clones each skill's source with plain `git`, so a private source (this skill's own
+`tw0po1nt/skills` included) needs the machine's existing git credentials to already cover it: a
+`gh auth login` with access to the repo, an SSH key registered with GitHub, or a `GITHUB_TOKEN`
+environment variable. A failed install names the missing piece. Confirm access before the install
+step on a machine you have not bootstrapped from before.
+
 On a repeat run, install only a baseline skill missing from `skills-lock.json`. For a skill
 directory step 1 flagged as hand-copied or pre-CLI, confirm with the user, then delete that
 directory and install the same skill fresh through the command above, so `skills-lock.json` picks
@@ -114,8 +120,9 @@ stripper. Revisit this the day the language is decided. A guess now would go sta
 
 Seed [`coding-standards.md`](templates/coding-standards.md) at
 `docs/standards/coding-standards.md` if missing. It starts with no numbered rule; a rule earns
-its place only when a real review finding shows an unwritten convention caused a problem. When step 5 is adopted, its first rule states that
-a comment cites nothing off the page, matching `technical-prose.md`'s rule that a code comment
+its place only when a real review finding shows an unwritten convention caused a problem. When
+step 5 is adopted, its first rule states that a comment cites nothing off the page, matching
+`technical-prose.md`'s rule that a code comment
 carries the same STE and antithesis requirements as any other prose in the repo.
 
 ## 7. Confirm and write
