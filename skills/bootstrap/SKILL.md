@@ -42,6 +42,13 @@ Recommend this baseline, and confirm before installing anything beyond it:
 - `TheAngryByrd/simplified-technical-english-skill`: recommend by default. Step 5 below assumes it
   is present.
 
+When you install the STE skill, ask the user one question: do they have an authorized copy of the
+ASD-STE100 Issue 9 PDF already, from another repo or a prior download? On yes, ask for its path
+and copy it to `<installed-skill-path>/assets/ASD-STE100-ISSUE-9.pdf`. On no, or on skip, leave it
+out. The installed skill's own `assets/README.md` already tells the user how to request an
+authorized copy and set `ASD_STE100_PDF` later. Do not fetch, generate, or otherwise source the
+PDF yourself. ASD's terms do not permit redistribution.
+
 Install shape: `npx skills@latest add <owner>/<repo> -s <skill-name> -a claude-code universal -y`.
 Name each agent this project targets; `-a '*'` also writes a directory for every other agent the
 CLI supports, most of them irrelevant to this project, so avoid it. The user can browse further
