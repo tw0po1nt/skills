@@ -76,11 +76,11 @@ with the added agent name. The CLI updates the existing entry rather than creati
 `.agents/skills/` is the CLI's own store for the `universal` agent, and `.claude/skills/` holds
 its Claude Code symlinks. Add both, plus `node_modules/`, to `.gitignore`. Track only
 `skills-lock.json`. Every directory above regenerates from it. Copy
-[`bootstrap.sh`](bootstrap.sh) to `scripts/bootstrap.sh` as the one-command fresh-clone restore,
-and mention it in the entrypoint file. As of `skills@1.5.23`, `experimental_install` can loop on a
-large lock file and exit non-zero without finishing the restore; if it does, fall back to `npx
-skills@latest add <owner>/<repo> -s <skill-name> -a claude-code universal -y` per skill listed in
-`skills-lock.json`.
+[`bootstrap.sh`](templates/bootstrap.sh) to `scripts/bootstrap.sh` as the one-command
+fresh-clone restore, and mention it in the entrypoint file. As of `skills@1.5.23`,
+`experimental_install` can loop on a large lock file and exit non-zero without finishing the
+restore; if it does, fall back to `npx skills@latest add <owner>/<repo> -s <skill-name> -a
+claude-code universal -y` per skill listed in `skills-lock.json`.
 
 ## 4. README
 
@@ -91,17 +91,18 @@ Create an empty `README.md` if none exists. Leave the content to the user.
 Recommend this bundle only when step 3 installed the STE skill; the two pieces below assume it and
 cite it by name. Ask before adopting. Ask again on a repeat run when a prior run declined it.
 
-- [`banned-patterns`](banned-patterns) → `.banned-patterns` at the repo root
-- [`check-banned-patterns.sh`](check-banned-patterns.sh) → `scripts/check-banned-patterns.sh`
-- [`technical-prose.md`](technical-prose.md) → `docs/standards/technical-prose.md`
-- [`hooks/banned-patterns-check.sh`](hooks/banned-patterns-check.sh),
-  [`hooks/ste-reminder-docs.sh`](hooks/ste-reminder-docs.sh),
-  [`hooks/ste-reminder-gh.sh`](hooks/ste-reminder-gh.sh) → `.claude/hooks/`
-- [`settings.json`](settings.json): merge its `PreToolUse` hooks into `.claude/settings.json`.
-  Preserve an existing file's other content.
-- When the repo hosts on GitHub: [`ci-github.yml`](ci-github.yml) → `.github/workflows/ci.yml`,
-  running `scripts/check-banned-patterns.sh`. Add a step to an existing workflow when one already
-  runs on the same triggers, rather than a new file.
+- [`banned-patterns`](templates/banned-patterns) → `.banned-patterns` at the repo root
+- [`check-banned-patterns.sh`](templates/check-banned-patterns.sh) →
+  `scripts/check-banned-patterns.sh`
+- [`technical-prose.md`](templates/technical-prose.md) → `docs/standards/technical-prose.md`
+- [`hooks/banned-patterns-check.sh`](templates/hooks/banned-patterns-check.sh),
+  [`hooks/ste-reminder-docs.sh`](templates/hooks/ste-reminder-docs.sh),
+  [`hooks/ste-reminder-gh.sh`](templates/hooks/ste-reminder-gh.sh) → `.claude/hooks/`
+- [`settings.json`](templates/settings.json): merge its `PreToolUse` hooks into
+  `.claude/settings.json`. Preserve an existing file's other content.
+- When the repo hosts on GitHub: [`ci-github.yml`](templates/ci-github.yml) →
+  `.github/workflows/ci.yml`, running `scripts/check-banned-patterns.sh`. Add a step to an
+  existing workflow when one already runs on the same triggers, rather than a new file.
 
 `check-banned-patterns.sh` and its hook check Markdown only, out of the box. Both carry a
 `LANGUAGE` marker showing where to add a case for this repo's source language, once chosen: a
@@ -111,9 +112,9 @@ stripper. Revisit this the day the language is decided. A guess now would go sta
 
 ## 6. Coding standards doc
 
-Seed [`coding-standards.md`](coding-standards.md) at `docs/standards/coding-standards.md` if
-missing. It starts with no numbered rule; a rule earns its place only when a real review finding
-shows an unwritten convention caused a problem. When step 5 is adopted, its first rule states that
+Seed [`coding-standards.md`](templates/coding-standards.md) at
+`docs/standards/coding-standards.md` if missing. It starts with no numbered rule; a rule earns
+its place only when a real review finding shows an unwritten convention caused a problem. When step 5 is adopted, its first rule states that
 a comment cites nothing off the page, matching `technical-prose.md`'s rule that a code comment
 carries the same STE and antithesis requirements as any other prose in the repo.
 
