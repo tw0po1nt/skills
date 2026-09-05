@@ -25,8 +25,16 @@ rule() {
   printf '\n==================== %s ====================\n\n' "$1"
 }
 
+# `gh issue view --comments` prints nothing when stdout is a pipe, so the fields
+# come through `--json`, which prints the same text to a pipe and to a terminal.
 rule "TICKET #$issue"
-gh issue view "$issue" --comments
+gh issue view "$issue" --json number,title,labels,body,comments --jq '
+  "#\(.number)  \(.title)",
+  "labels: \([.labels[].name] | join(", "))",
+  "",
+  .body,
+  (.comments[] | "\n---- comment by \(.author.login) ----\n\n\(.body)")
+'
 
 rule "TOOLCHAIN ON THIS MACHINE"
 for cmd in "${tool_commands[@]}"; do
