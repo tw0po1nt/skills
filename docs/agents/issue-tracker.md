@@ -33,6 +33,16 @@ Create a GitHub issue.
 
 Run `gh issue view <number> --comments`.
 
+## When a skill says "fetch the spec issue"
+
+Run `gh issue view <number> --comments` to get its full body. Get a permanent URL to the issue with
+`gh issue view <number> --json url --jq .url`.
+
+## When a skill says "rewrite an issue's title and description"
+
+Run `gh issue edit <number> --title "<new title>" --body "<new body>"`. Use a heredoc for a
+multi-line body.
+
 ## Wayfinding operations
 
 Used by `/wayfinder`. The **map** is a single issue with **child** issues as tickets.

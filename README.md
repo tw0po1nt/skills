@@ -12,3 +12,6 @@ itself.
   conventions. Sets up the agent entrypoint file, installs the core skills through `npx
   skills@latest`, and offers an optional prose and comment enforcement bundle. Safe to run more
   than once as a repo's situation changes.
+- [`to-abstract`](skills/to-abstract/SKILL.md): splits a `to-spec` issue in two. The full spec
+  moves verbatim into a `docs/spec` file and a PR, and the issue is rewritten as a short abstract
+  linking back to it.
