@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "skills": {
+    "bootstrap": {
+      "source": "tw0po1nt/skills",
+      "sourceType": "github",
+      "skillPath": "skills/bootstrap/SKILL.md",
+      "computedHash": "78d00f0e0004f7db7d8c8543bc5ab910d3a0aadf6ce2780294c4c726c5a1f746"
+    },
+    "setup-matt-pocock-skills": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "skillPath": "skills/engineering/setup-matt-pocock-skills/SKILL.md",
+      "computedHash": "552b0f48b9fe054aa93c5d432fefbd7bd9645e3f2d20b4e22432453a81800b21"
+    },
+    "simplified-technical-english": {
+      "source": "TheAngryByrd/simplified-technical-english-skill",
+      "sourceType": "github",
+      "skillPath": "skills/simplified-technical-english/SKILL.md",
+      "computedHash": "f957a6b79b8498bf5d924bdce8c810a4ee5cd378892c671d3da0f12de5af2ad7"
+    }
+  }
+}
