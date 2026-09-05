@@ -48,9 +48,16 @@ carries no record of where it came from. The CLI's own `skills-lock.json` is tha
 
 Recommend this baseline, and confirm before installing anything beyond it:
 
-- `mattpocock/skills -s setup-matt-pocock-skills`: configures the issue tracker, the triage label
-  vocabulary, and the domain-doc layout for this repo. Run it immediately after install; it
-  replaces what this skill used to do by hand.
+- Every skill under `mattpocock/skills`, in its `skills/engineering/` and `skills/productivity/`
+  directories, except each directory's own `README.md`. Do not hardcode the names here, since Matt
+  adds new skills to both directories over time. List the current names with
+  `gh api repos/mattpocock/skills/contents/skills/engineering --jq '.[].name'`, then run the same
+  command for `skills/productivity`. Skip `skills/misc/`, `skills/in-progress/`, and
+  `skills/deprecated/`. The `in-progress` directory holds unfinished skills. The `deprecated`
+  directory is empty.
+- Among these skills, install `setup-matt-pocock-skills` first. Run it immediately after install.
+  It configures the issue tracker, the triage label vocabulary, and the domain-doc layout that the
+  other engineering skills need. It replaces the manual setup this skill used before.
 - `TheAngryByrd/simplified-technical-english-skill`: recommend by default. Step 5 below assumes it
   is present.
 
