@@ -68,10 +68,13 @@ out. The installed skill's own `assets/README.md` already tells the user how to 
 authorized copy and set `ASD_STE100_PDF` later. Do not fetch, generate, or otherwise source the
 PDF yourself. ASD's terms do not permit redistribution.
 
-Install shape: `npx skills@latest add <owner>/<repo> -s <skill-name> -a claude-code universal -y`.
-Name each agent this project targets; `-a '*'` also writes a directory for every other agent the
-CLI supports, most of them irrelevant to this project, so avoid it. The user can browse further
-candidates with `npx skills@latest find <query>`.
+Install shape: `npx skills@latest add <owner>/<repo> -s <skill-name> -a claude-code universal -y
+--copy`. Name each agent this project targets. Do not use `-a '*'`. This flag writes a directory
+for every agent the CLI supports. Most of these agents are not part of this project. Always add
+`--copy`. This flag writes a real file to `.claude/skills/`. Without `--copy`, the CLI writes a
+symlink into `.agents/skills/` instead. Some tools resolve a symlink against the tool's own
+install path. They do not use the link's location. These tools cannot read the skill through a
+symlink. The user can find more candidate skills with `npx skills@latest find <query>`.
 
 The CLI clones each skill's source with plain `git`, so a private source (this skill's own
 `tw0po1nt/skills` included) needs the machine's existing git credentials to already cover it: a
@@ -86,14 +89,14 @@ up a real entry for it. When the project starts using an agent it did not target
 contributor's editor, a new CLI), rerun the same install command for each already-installed skill
 with the added agent name. The CLI updates the existing entry rather than creating a duplicate.
 
-`.agents/skills/` is the CLI's own store for the `universal` agent, and `.claude/skills/` holds
-its Claude Code symlinks. Add both, plus `node_modules/`, to `.gitignore`. Track only
-`skills-lock.json`. Every directory above regenerates from it. Copy
+`.agents/skills/` is the CLI's own store for the `universal` agent. `.claude/skills/` holds a copy
+of each skill for Claude Code. Add both directories, plus `node_modules/`, to `.gitignore`. Track
+only `skills-lock.json`. Every directory above regenerates from it. Copy
 [`bootstrap.sh`](templates/bootstrap.sh) to `scripts/bootstrap.sh` as the one-command
 fresh-clone restore, and mention it in the entrypoint file. As of `skills@1.5.23`,
 `experimental_install` can loop on a large lock file and exit non-zero without finishing the
-restore; if it does, fall back to `npx skills@latest add <owner>/<repo> -s <skill-name> -a
-claude-code universal -y` per skill listed in `skills-lock.json`.
+restore. If this happens, fall back to `npx skills@latest add <owner>/<repo> -s <skill-name> -a
+claude-code universal -y --copy` per skill listed in `skills-lock.json`.
 
 ## 4. README
 
