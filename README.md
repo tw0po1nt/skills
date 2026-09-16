@@ -16,6 +16,9 @@ itself.
   implementation ticket. `scripts/preflight.sh` resolves the ticket and the toolchain into one
   bundle, and `scripts/verify.sh` holds the gate that the model runs to learn when the work is
   done. Every claim it makes carries pasted command output.
+- [`next-task`](skills/next-task/SKILL.md): retires the current feature branch and resets the
+  repository to the default branch before the next task starts. Confirms the branch has landed
+  through `gh` first, with a git ancestry fallback, before deleting it.
 - [`to-abstract`](skills/to-abstract/SKILL.md): splits a `to-spec` issue in two. The full spec
   moves verbatim into a `docs/spec` file and a PR, and the issue is rewritten as a short abstract
   linking back to it.
