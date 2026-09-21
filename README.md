@@ -27,3 +27,6 @@ itself.
 - [`verify-feedback`](skills/verify-feedback/SKILL.md): proves each addressed finding from its
   commit, weighs each declined one, proves the gate on the PR head, and writes a ready-to-merge
   verdict. Raises no new findings, so the loop converges.
+
+`to-feedback`, `address-feedback`, and `verify-feedback` install together. Each points at a file
+inside another one of the three, so one installed alone reads a broken pointer.

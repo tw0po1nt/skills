@@ -60,6 +60,11 @@ Recommend this baseline, and confirm before installing anything beyond it:
   other engineering skills need. It replaces the manual setup this skill used before.
 - `TheAngryByrd/simplified-technical-english-skill`: recommend by default. Step 5 below assumes it
   is present.
+- `tw0po1nt/skills`: the feedback loop, `to-feedback`, `address-feedback`, and `verify-feedback`.
+  Install the three together. Each points at a file inside another one of the three
+  (`../to-feedback/LEDGER.md`, `../verify-feedback/SKILL.md`), so a skill installed alone reads a
+  broken pointer. `to-feedback` writes to `.scratch/` when a branch has no PR, so add `.scratch/`
+  to `.gitignore` with the directories in the paragraph below.
 
 When you install the STE skill, ask the user one question: do they have an authorized copy of the
 ASD-STE100 Issue 9 PDF already, from another repo or a prior download? On yes, ask for its path
