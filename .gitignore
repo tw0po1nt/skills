@@ -1,3 +1,4 @@
 .claude/skills
 .agents/skills
 node_modules
+.scratch

@@ -61,10 +61,7 @@ Recommend this baseline, and confirm before installing anything beyond it:
 - `TheAngryByrd/simplified-technical-english-skill`: recommend by default. Step 5 below assumes it
   is present.
 - `tw0po1nt/skills`: the feedback loop, `to-feedback`, `address-feedback`, and `verify-feedback`.
-  Install the three together. Each points at a file inside another one of the three
-  (`../to-feedback/LEDGER.md`, `../verify-feedback/SKILL.md`), so a skill installed alone reads a
-  broken pointer. `to-feedback` writes to `.scratch/` when a branch has no PR, so add `.scratch/`
-  to `.gitignore` with the directories in the paragraph below.
+  All three read `docs/agents/feedback-ledger.md`, which step 6 seeds.
 
 When you install the STE skill, ask the user one question: do they have an authorized copy of the
 ASD-STE100 Issue 9 PDF already, from another repo or a prior download? On yes, ask for its path
@@ -95,8 +92,9 @@ contributor's editor, a new CLI), rerun the same install command for each alread
 with the added agent name. The CLI updates the existing entry rather than creating a duplicate.
 
 `.agents/skills/` is the CLI's own store for the `universal` agent. `.claude/skills/` holds a copy
-of each skill for Claude Code. Add both directories, plus `node_modules/`, to `.gitignore`. Track
-only `skills-lock.json`. Every directory above regenerates from it. Copy
+of each skill for Claude Code. Add both directories, plus `node_modules/` and `.scratch/`, to
+`.gitignore`. `to-feedback` writes to `.scratch/` when a branch has no PR. Track only
+`skills-lock.json`. Every directory above regenerates from it. Copy
 [`bootstrap.sh`](templates/bootstrap.sh) to `scripts/bootstrap.sh` as the one-command
 fresh-clone restore, and mention it in the entrypoint file. As of `skills@1.5.23`,
 `experimental_install` can loop on a large lock file and exit non-zero without finishing the
@@ -131,7 +129,7 @@ stripper that reduces that language's comment lines and string literals to prose
 Markdown case does, plus its extension registered in the file-glob and the `case` that picks a
 stripper. Revisit this the day the language is decided. A guess now would go stale.
 
-## 6. Coding standards doc
+## 6. Coding standards and feedback ledger docs
 
 Seed [`coding-standards.md`](templates/coding-standards.md) at
 `docs/standards/coding-standards.md` if missing. It starts with no numbered rule; a rule earns
@@ -139,6 +137,10 @@ its place only when a real review finding shows an unwritten convention caused a
 step 5 is adopted, its first rule states that a comment cites nothing off the page, matching
 `technical-prose.md`'s rule that a code comment
 carries the same STE and antithesis requirements as any other prose in the repo.
+
+Seed [`feedback-ledger.md`](templates/feedback-ledger.md) at `docs/agents/feedback-ledger.md` if
+missing. The three feedback skills read it for the ledger format, the `gh` commands, and the
+gate.
 
 ## 7. Confirm and write
 
