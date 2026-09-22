@@ -95,12 +95,19 @@ Done when: you hold a receipt that says the remote holds every commit from step 
 ### 7. Write the outcome to the ledger
 
 For each finding you worked, set its state: `addressed in <sha>`, `declined: <reason>`, or
-`blocked: <reason>` followed by the red gate output. Update the ids in the Summary. Set the
-Verdict to `Pending.`.
+`blocked: <reason>` followed by the red gate output.
+
+The `State` line is the only line of an entry that you change. Leave the `Where`, the `Rule`, the
+`Problem`, the `Fix`, and the `Done when` as the reviewer wrote them. `verify-feedback` tests your
+diff against the `Done when`, so a rewritten entry leaves the verifier with no condition to test.
+
+Update the ids in the Summary. Set the Verdict to `Pending.`. Only `verify-feedback` writes a
+verdict that judges the merge.
 
 Replace the comment with the command in `docs/agents/feedback-ledger.md`.
 
-Done when: the ledger on the PR shows the new state of every finding you worked.
+Done when: the ledger on the PR shows the new state of every finding you worked, each `Done when`
+reads as the reviewer wrote it, and the Verdict reads `Pending.`.
 
 ### 8. Report
 

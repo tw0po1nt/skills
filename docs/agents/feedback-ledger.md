@@ -114,6 +114,9 @@ Pending.
 - **Where**: a `path:line` range pinned to the commit the review read. The pin holds that commit
   after the lines move.
 - **Rule**: the quoted standard or spec line the finding rests on.
+- **Entry**: the reviewer writes the lines of a finding. A skill that changes a finding edits the
+  `State` line, and adds a `Reopened:` line where the State rule asks for one. Every other line
+  stays as the reviewer wrote it, because `verify-feedback` tests the diff against the `Done when`.
 - **Done when**: a condition a reader can check from the diff. `verify-feedback` tests it, so
   write an observable fact. "The test renders the full number" is checkable. "Improve the test"
   gives the verifier nothing to check.
