@@ -96,10 +96,10 @@ of each skill for Claude Code. Add both directories, plus `node_modules/` and `.
 `.gitignore`. `to-feedback` writes to `.scratch/` when a branch has no PR. Track only
 `skills-lock.json`. Every directory above regenerates from it. Copy
 [`bootstrap.sh`](templates/bootstrap.sh) to `scripts/bootstrap.sh` as the one-command
-fresh-clone restore, and mention it in the entrypoint file. As of `skills@1.5.23`,
-`experimental_install` can loop on a large lock file and exit non-zero without finishing the
-restore. If this happens, fall back to `npx skills@latest add <owner>/<repo> -s <skill-name> -a
-claude-code universal -y --copy` per skill listed in `skills-lock.json`.
+fresh-clone restore, and mention it in the entrypoint file. The script runs the install command
+above once for each source in `skills-lock.json`. Set its `agents` array to the same agents as the
+`-a` list, and update the array when the project adds an agent. Keep the restore on `add --copy`.
+`experimental_install` writes only `.agents/skills/`, so Claude Code finds no skill after it runs.
 
 ## 4. README
 
