@@ -84,6 +84,10 @@ The CLI clones each skill's source with plain `git`, so a private source (this s
 environment variable. A failed install names the missing piece. Confirm access before the install
 step on a machine you have not bootstrapped from before.
 
+`bootstrap.sh` skips a source that it cannot read. It installs each other source, then exits 1
+and names each failed source. A contributor without access to a private source still gets every
+public skill. When a public repo lists a private source, state this in its contributing doc.
+
 On a repeat run, install only a baseline skill missing from `skills-lock.json`. For a skill
 directory step 1 flagged as hand-copied or pre-CLI, confirm with the user, then delete that
 directory and install the same skill fresh through the command above, so `skills-lock.json` picks
