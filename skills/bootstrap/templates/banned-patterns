@@ -46,7 +46,7 @@
 # ---------------------------------------------------------------------------
 # The antithesis and the em dash
 # ---------------------------------------------------------------------------
-, not	Assert the fact directly. Delete the negated half.
+, not\b	Assert the fact directly. Delete the negated half.
 , and (not|never) 	Assert the fact directly. Delete the negated half.
 \bnot [^.,;]{1,40}(, but |but rather )	Assert the fact directly. Delete the negated half.
 \bnot (just|merely|simply|only)	Assert the fact directly. Delete the negated half.
