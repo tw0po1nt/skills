@@ -30,8 +30,9 @@ Read whatever exists; don't assume:
   `.agents/skills/<name>`) but has no matching entry in `skills-lock.json`: a copy made by hand,
   or made before this repo adopted the skills CLI. Flag it for step 3 to replace.
 - `docs/standards/`, `docs/agents/`, `.banned-patterns`, `.claude/hooks/`, `.claude/settings.json`,
-  `.github/workflows/`: present, absent, or (for `check-banned-patterns.sh` and its hook) still on
-  the Markdown-only default after the repo's source language was decided.
+  `.github/workflows/`, `scripts/verify.sh`: present, absent, or (for `check-banned-patterns.sh`,
+  its hook, and `verify.sh`) still on the language-free default after the repo's source language
+  was decided.
 
 ## 2. Agent entrypoint file
 
@@ -124,8 +125,9 @@ cite it by name. Ask before adopting. Ask again on a repeat run when a prior run
 - [`settings.json`](templates/settings.json): merge its `PreToolUse` hooks into
   `.claude/settings.json`. Preserve an existing file's other content.
 - When the repo hosts on GitHub: [`ci-github.yml`](templates/ci-github.yml) →
-  `.github/workflows/ci.yml`, running `scripts/check-banned-patterns.sh`. Add a step to an
-  existing workflow when one already runs on the same triggers, rather than a new file.
+  `.github/workflows/ci.yml`, running `scripts/verify.sh`, the gate that step 6 seeds. Add a step
+  to an existing workflow when one already runs on the same triggers, rather than a new file. When
+  the gate needs a toolchain, add its setup step before the gate step.
 
 `check-banned-patterns.sh` and its hook check Markdown only, out of the box. Both carry a
 `LANGUAGE` marker showing where to add a case for this repo's source language, once chosen: a
@@ -133,7 +135,7 @@ stripper that reduces that language's comment lines and string literals to prose
 Markdown case does, plus its extension registered in the file-glob and the `case` that picks a
 stripper. Revisit this the day the language is decided. A guess now would go stale.
 
-## 6. Coding standards and feedback ledger docs
+## 6. Coding standards, feedback ledger docs, and the gate
 
 Seed [`coding-standards.md`](templates/coding-standards.md) at
 `docs/standards/coding-standards.md` if missing. It starts with no numbered rule; a rule earns
@@ -146,6 +148,14 @@ Seed [`feedback-ledger.md`](templates/feedback-ledger.md) at `docs/agents/feedba
 missing. The three feedback skills read it for the ledger format, the `gh` commands, and the
 gate.
 
+Seed [`verify.sh`](templates/verify.sh) at `scripts/verify.sh` if missing. The ledger doc names
+it as the gate. `address-feedback` stops when the gate is missing, and it does not write one, so
+the feedback loop cannot run without this file. The template runs
+`scripts/check-banned-patterns.sh` when that script exists. Its `LANGUAGE` marker shows where to
+add a `step` line for each build, lint, and test command. When the repo's source language is
+already chosen, ask the user which commands to add. Run each command once before you add it, so
+the gate is green on the repo's current content.
+
 ## 7. Confirm and write
 
 Show the user the entrypoint-file diff and the list of files each adopted section would add, before
@@ -155,7 +165,7 @@ already installed.
 Done when: `scripts/bootstrap.sh` exists and restores every installed skill from
 `skills-lock.json`; the entrypoint file names each adopted piece with a one-line pointer to its
 doc; running `scripts/check-banned-patterns.sh` (when step 5 was adopted) exits clean on the
-repo's current content.
+repo's current content; running `scripts/verify.sh` prints `verify: green` as its last line.
 
 ## 8. Re-running
 
@@ -168,7 +178,8 @@ run, rather than making the same edit by hand. Situations worth a rerun for:
   `simplified-technical-english`, made before this skill existed and later replaced through
   `npx skills@latest add`, is the case that motivated this rule.
 - The repo's source language went from undecided to chosen: revisit the `LANGUAGE` marker in
-  step 5's script and hook.
+  step 5's script and hook, and in step 6's `verify.sh`.
+- `scripts/verify.sh` is missing on a repo bootstrapped before step 6 seeded it.
 - The repo gained a GitHub remote after step 5 ran without one: adopt `ci-github.yml` now.
 - A prior run declined the step 5 bundle and the user now wants it.
 - A new agent (editor, CLI) joined the project after step 3 ran: extend each already-installed
