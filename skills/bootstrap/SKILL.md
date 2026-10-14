@@ -146,7 +146,9 @@ carries the same STE and antithesis requirements as any other prose in the repo.
 
 Seed [`feedback-ledger.md`](templates/feedback-ledger.md) at `docs/agents/feedback-ledger.md` if
 missing. The three feedback skills read it for the ledger format, the `gh` commands, and the
-gate.
+gate. The ledger is opt-in, so its pointer in the entrypoint file states that only a `to-feedback`
+run creates one. A pointer that ties a ledger to each pull request leads an agent to write one
+for an ordinary review.
 
 Seed [`verify.sh`](templates/verify.sh) at `scripts/verify.sh` if missing. The ledger doc names
 it as the gate. `address-feedback` stops when the gate is missing, and it does not write one, so

@@ -16,7 +16,8 @@ One defect or judgement call that a review raised. It has a stable id.
 _Avoid_: issue, comment, item, nit
 
 **Ledger**:
-The document that holds every finding for one pull request.
+The document that holds every finding for one pull request. Only a `to-feedback` run creates
+it, so most pull requests have no ledger.
 _Avoid_: feedback file, review doc, report
 
 **Feedback**:
