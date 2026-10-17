@@ -37,7 +37,9 @@ Find where `docs/spec/` belongs: the repo root by default, or `src/<context>/doc
 multi-context repo (one with a `CONTEXT-MAP.md`), matching that context's `docs/adr/` placement.
 Use the domain glossary to identify the context the spec belongs to.
 
-Name the file `<issue-number>-<slug>.md`, where `<slug>` is a kebab-case cut of the issue title.
+Name the file `<issue-number>-<slug>.md`, where `<slug>` is a kebab-case cut of the issue title
+without a leading `Spec:` prefix. For the title `Spec: build twopoint.dev with F#`, the slug is
+`build-twopoint-dev-with-fsharp`.
 
 ### 4. Copy the spec verbatim and open a PR
 
@@ -75,8 +77,9 @@ may later be deleted.
 
 ### 6. Rewrite the issue
 
-Prefix the issue's title with `Feature: `. Skip the prefix if it's already there. Replace the
-description with the abstract from step 5.
+Remove a leading `Spec:` prefix from the issue's title, in any case. Then prefix the title with
+`Feature: `. Skip the prefix if it's already there. `Spec: build twopoint.dev with F#` becomes
+`Feature: build twopoint.dev with F#`. Replace the description with the abstract from step 5.
 
 Leave every child sub-issue (from `to-tickets`) untouched. Each references the parent by issue
 number, a value this skill never changes, so none of them need an update. This skill also carries
