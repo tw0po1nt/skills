@@ -6,6 +6,9 @@ This repo holds skills for Matt's own projects. Install a skill from this repo t
 project's skill manager (GitHub source, `skills/<name>/SKILL.md`). Each skill folder documents
 itself.
 
+The skills follow Matt's own conventions. Other projects can use them, but most skills expect the
+files that `bootstrap` creates. In a new repo, run `bootstrap` first.
+
 ## Skills
 
 - [`bootstrap`](skills/bootstrap/SKILL.md): scaffolds a new or early-stage repo to Matt's house
@@ -29,3 +32,7 @@ itself.
   ready-to-merge verdict. It raises no new finding, so the loop converges.
 
 The three feedback skills read `docs/agents/feedback-ledger.md`, which `bootstrap` seeds.
+
+## License
+
+This repo uses the [MIT license](LICENSE).
