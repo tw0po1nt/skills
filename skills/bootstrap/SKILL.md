@@ -63,6 +63,8 @@ Recommend this baseline, and confirm before installing anything beyond it:
   is present.
 - `tw0po1nt/skills`: the feedback loop, `to-feedback`, `address-feedback`, and `verify-feedback`.
   All three read `docs/agents/feedback-ledger.md`, which step 6 seeds.
+- `tw0po1nt/skills`: `to-abstract`. It completes the pipeline of `to-spec` and `to-tickets`: it
+  moves the full spec to a file in `docs/spec/` and leaves a short abstract in the issue.
 
 When you install the STE skill, ask the user one question: do they have an authorized copy of the
 ASD-STE100 Issue 9 PDF already, from another repo or a prior download? On yes, ask for its path
